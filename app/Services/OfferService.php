@@ -32,15 +32,11 @@ class OfferService
         return $query->first();
     }
 
-    /**
-     * @throws ConfigurationException
-     * @throws TwilioException
-     */
     public function create($attributes): \Illuminate\Http\JsonResponse
     {
         if ($this->canCreateOffer($attributes)) {
             $attributes['status'] = 'pending';
-            $offer = Offer::create($attributes);
+            $offer = Offer::query()->create($attributes);
 
             if ($offer) {
                 $this->smsService->sendSms('Talebiniz alınmıştır.');
@@ -76,9 +72,9 @@ class OfferService
         return true;
     }
 
-    public function approve($id)
+    public function approve($id): bool|int
     {
-        $offer = Offer::find($id);
+        $offer = Offer::query()->find($id);
 
         if ($offer) {
             $this->sendSmsToSchool($offer);
@@ -88,9 +84,9 @@ class OfferService
         return false;
     }
 
-    public function reject($id)
+    public function reject($id): bool|int
     {
-        $offer = Offer::find($id);
+        $offer = Offer::query()->find($id);
 
         if ($offer) {
             return $offer->update(['status' => 'rejected']);

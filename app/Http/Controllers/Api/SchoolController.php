@@ -20,7 +20,6 @@ class SchoolController extends Controller
 
     public function index(): \Illuminate\Http\JsonResponse
     {
-        app(SmsService::class)->sendSms('Talebiniz basarili ile alindi');
         $schools = $this->schoolService->getAll();
         return response()->json(['schools' => $schools]);
     }
