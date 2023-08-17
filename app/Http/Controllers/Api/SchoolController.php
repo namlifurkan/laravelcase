@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Services\SchoolService;
-use App\Services\SmsService;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
 
 class SchoolController extends Controller
 {
