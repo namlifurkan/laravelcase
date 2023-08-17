@@ -13,7 +13,7 @@ class SchoolService
         return $query->get();
     }
 
-    public function getSchool($id): \Illuminate\Database\Eloquent\Model
+    public function getSchool($id): \Illuminate\Database\Eloquent\Model|null
     {
         $query = School::query()->where('id', $id);
 

@@ -24,6 +24,14 @@ class OfferService
         return $query->get();
     }
 
+    public function getOffer($id): \Illuminate\Database\Eloquent\Model|null
+    {
+        $query = Offer::query()
+            ->where('id', $id);
+
+        return $query->first();
+    }
+
     /**
      * @throws ConfigurationException
      * @throws TwilioException
@@ -71,7 +79,7 @@ class OfferService
     public function approve($id)
     {
         $offer = Offer::find($id);
-
+        $this->sendSmsToSchool($offer);
         return $offer->update(['status' => 'approved']);
     }
 
@@ -80,5 +88,10 @@ class OfferService
         $offer = Offer::find($id);
 
         return $offer->update(['status' => 'rejected']);
+    }
+
+    private function sendSmsToSchool($offer): void
+    {
+        app(SmsService::class)->sendSmsToSchool($offer);
     }
 }

@@ -14,7 +14,6 @@ class SmsService
     private string $token;
     private Client $client;
 
-
     /**
      * @throws ConfigurationException
      */
@@ -38,6 +37,8 @@ class SmsService
                     "from" => "+15005550006",
                 ]
             );
+
+        $this->getInfo($response->uri);
     }
 
     /**
@@ -53,7 +54,17 @@ class SmsService
 
         $decodedResponse = json_decode($response->getBody(), true);
 
-        var_dump($decodedResponse);
+    }
 
+    public function sendSmsToSchool($offer): void
+    {
+        $message = $offer['first_name'] . ' ' . $offer['surname'] . ' isimli velimize '
+            . $offer['phone'] . ' veya ' . $offer['email'] . ' üzerinden ulaşabilirsiniz.';
+
+        if (!empty($offer['date_of_birth'])) {
+            $message .= 'Öğrencinin doğum tarihi ise: ' . $offer['date_of_birth'];
+        }
+
+        $this->sendSms($message);
     }
 }
