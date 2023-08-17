@@ -79,15 +79,24 @@ class OfferService
     public function approve($id)
     {
         $offer = Offer::find($id);
-        $this->sendSmsToSchool($offer);
-        return $offer->update(['status' => 'approved']);
+
+        if ($offer) {
+            $this->sendSmsToSchool($offer);
+            return $offer->update(['status' => 'approved']);
+        }
+
+        return false;
     }
 
     public function reject($id)
     {
         $offer = Offer::find($id);
 
-        return $offer->update(['status' => 'rejected']);
+        if ($offer) {
+            return $offer->update(['status' => 'rejected']);
+        }
+
+        return false;
     }
 
     private function sendSmsToSchool($offer): void

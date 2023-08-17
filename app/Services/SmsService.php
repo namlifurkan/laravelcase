@@ -27,6 +27,7 @@ class SmsService
     /**
      * @throws ConfigurationException
      * @throws TwilioException
+     * @throws GuzzleException
      */
     public function sendSms($message): void
     {
@@ -38,7 +39,7 @@ class SmsService
                 ]
             );
 
-        $this->getInfo($response->uri);
+//        $this->getInfo($response->uri);
     }
 
     /**

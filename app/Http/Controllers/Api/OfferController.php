@@ -37,7 +37,7 @@ class OfferController extends Controller
         if ($response) {
             return response()->json(['message' => 'Form başarılı bir şekilde onaylandı.']);
         } else {
-            return response()->json(['message' => 'Bir hata olustu.']);
+            return response()->json(['message' => 'Form bulunmamaktadir.']);
         }
     }
 
@@ -48,7 +48,7 @@ class OfferController extends Controller
         if ($response) {
             return response()->json(['message' => 'Form başarılı bir şekilde reddedildi.']);
         } else {
-            return response()->json(['message' => 'Bir hata olustu.']);
+            return response()->json(['message' => 'Form bulunmamaktadir.']);
         }
     }
 }
