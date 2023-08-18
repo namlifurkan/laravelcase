@@ -71,27 +71,46 @@ class OfferService
         return true;
     }
 
-    public function approve($id): bool|int
+    public function approve($id): \Illuminate\Http\JsonResponse
     {
         $offer = Offer::query()->find($id);
 
         if ($offer) {
-            $this->sendSmsToSchool($offer);
-            return $offer->update(['status' => 'approved']);
+            if ($offer->status === "pending") {
+                $this->sendSmsToSchool($offer);
+                $updated = $offer->update(['status' => 'approved']);
+                if ($updated) {
+                    return response()->json(['message' => 'Form başarılı bir şekilde onaylandı.']);
+                }
+            } else {
+                return response()->json(['message' => 'Bu formun statusu daha önce değiştirilmiş.']);
+            }
+        } else {
+            return response()->json(['message' => 'Boyle bir form bulunmamaktadir.']);
         }
 
-        return false;
+        return response()->json(['message' => 'Bir hata oluştu.']);
     }
 
-    public function reject($id): bool|int
+    public function reject($id): \Illuminate\Http\JsonResponse
     {
         $offer = Offer::query()->find($id);
 
         if ($offer) {
-            return $offer->update(['status' => 'rejected']);
+            if ($offer->status === "pending") {
+                $this->sendSmsToSchool($offer);
+                $updated = $offer->update(['status' => 'rejected']);
+                if ($updated) {
+                    return response()->json(['message' => 'Form başarılı bir şekilde reddedildi.']);
+                }
+            } else {
+                return response()->json(['message' => 'Bu formun statusu daha önce değiştirilmiş.']);
+            }
+        } else {
+            return response()->json(['message' => 'Boyle bir form bulunmamaktadir.']);
         }
 
-        return false;
+        return response()->json(['message' => 'Bir hata oluştu.']);
     }
 
     private function sendSmsToSchool($offer): void

@@ -25,6 +25,8 @@ Route::any('/submit', [OfferController::class, 'submitForm'])->name('submit-form
 Route::get('/schools', [SchoolController::class, "index"])->name('school');
 Route::get('/schools/{school_id}', ['as' => 'school.show', SchoolController::class, "show"])->name('school.show');
 
-Route::get('offers/', [OfferController::class, 'list'])->name('offers');
-Route::get('offers/{offer_id}/approve', [OfferController::class, 'approveOffer'])->name('approveOffer');
-Route::get('offers/{offer_id}/reject', [OfferController::class, 'rejectOffer'])->name('rejectOffer');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('offers/', [OfferController::class, 'list'])->name('offers');
+    Route::get('offers/{offer_id}/approve', [OfferController::class, 'approveOffer'])->name('approveOffer');
+    Route::get('offers/{offer_id}/reject', [OfferController::class, 'rejectOffer'])->name('rejectOffer');
+});

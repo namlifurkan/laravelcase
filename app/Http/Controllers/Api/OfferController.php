@@ -32,23 +32,11 @@ class OfferController extends Controller
 
     public function approveOffer($id): \Illuminate\Http\JsonResponse
     {
-        $response = $this->offerService->approve($id);
-
-        if ($response) {
-            return response()->json(['message' => 'Form başarılı bir şekilde onaylandı.']);
-        } else {
-            return response()->json(['message' => 'Form bulunmamaktadir.']);
-        }
+        return $this->offerService->approve($id);
     }
 
     public function rejectOffer($id): \Illuminate\Http\JsonResponse
     {
-        $response = $this->offerService->reject($id);
-
-        if ($response) {
-            return response()->json(['message' => 'Form başarılı bir şekilde reddedildi.']);
-        } else {
-            return response()->json(['message' => 'Form bulunmamaktadir.']);
-        }
+        return $this->offerService->reject($id);
     }
 }

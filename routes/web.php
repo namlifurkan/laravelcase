@@ -20,3 +20,33 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/setup', function () {
+    $credentials = [
+        'email' => 'furkan@admin.com',
+        'password' => 'password'
+    ];
+
+    if (!auth()->attempt($credentials)) {
+        $user = new \App\Models\User();
+
+        $user->name = 'Admin';
+        $user->email = $credentials['email'];
+        $user->password = bcrypt($credentials['password']);
+
+        $user->save();
+
+        if (auth()->attempt($credentials)) {
+            $user = auth()->user();
+            $adminToken = $user->createToken('admin-token', ['create', 'update', 'delete']);
+            $updateToken = $user->createToken('update-token', ['create', 'update']);
+            $basicToken = $user->createToken('basic-token');
+
+            return [
+                'admin' => $adminToken->plainTextToken,
+                'update' => $updateToken->plainTextToken,
+                'basic' => $basicToken->plainTextToken,
+            ];
+        }
+    }
+});
