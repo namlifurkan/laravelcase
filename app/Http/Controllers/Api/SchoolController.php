@@ -14,10 +14,10 @@ class SchoolController extends Controller
         $this->schoolService = $schoolService;
     }
 
-    public function index(): string
+    public function index()
     {
         $schools = $this->schoolService->getAll();
-        return $schools->toJson();
+        return json_decode($schools->toJson());
     }
 
     public function show($id): \Illuminate\Http\JsonResponse
