@@ -23,11 +23,11 @@ class OfferController extends Controller
         return $this->offerService->create($request->all());
     }
 
-    public function list(): \Illuminate\Http\JsonResponse
+    public function list(): string
     {
         $offers = $this->offerService->getAll();
 
-        return response()->json(['offers' => $offers]);
+        return $offers->toJson();
     }
 
     public function approveOffer($id): \Illuminate\Http\JsonResponse

@@ -17,11 +17,10 @@ class OfferService
         $this->smsService = $smsService;
     }
 
-    public function getAll(): \Illuminate\Database\Eloquent\Collection|array
+    public function getAll(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        $query = Offer::query();
-
-        return $query->get();
+        $paginate = 10;
+        return Offer::query()->paginate($paginate);
     }
 
     public function getOffer($id): \Illuminate\Database\Eloquent\Model|null

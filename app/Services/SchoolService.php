@@ -6,11 +6,11 @@ use App\Models\School;
 
 class SchoolService
 {
-    public function getAll(): \Illuminate\Database\Eloquent\Collection|array
+    public function getAll(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        $query = School::query();
+        $paginate = 10;
 
-        return $query->get();
+        return School::query()->paginate($paginate);
     }
 
     public function getSchool($id): \Illuminate\Database\Eloquent\Model|null
